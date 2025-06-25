@@ -2,17 +2,20 @@ import { SORT_ORDER } from '../constants/index.js';
 import { ContactsCollection } from '../db/models/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllContacts = async ({
-  page = 1,
-  perPage = 10,
-  sortOrder = SORT_ORDER.ASC,
-  sortBy = '_id',
-  filter = {},
-}) => {
+export const getAllContacts = async (
+  userId,
+  {
+    page = 1,
+    perPage = 10,
+    sortOrder = SORT_ORDER.ASC,
+    sortBy = '_id',
+    filter = {},
+  },
+) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find();
+  const contactsQuery = ContactsCollection.find({ userId });
 
   if (filter.isFavourite) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
@@ -39,26 +42,29 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = async (contactId) => {
-  const contact = await ContactsCollection.findById(contactId);
+export const getContactById = async (contactId, userId) => {
+  const contact = await ContactsCollection.findOne({ _id: contactId, userId });
   return contact;
 };
 
-export const createContact = async (payload) => {
-  const contact = await ContactsCollection.create(payload);
+export const createContact = async (data, userId) => {
+  const contact = await ContactsCollection.create({ ...data, userId });
   return contact;
 };
 
-export const patchContact = async (contactId, payload) => {
+export const patchContact = async (contactId, data, userId) => {
   const contact = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
-    payload,
+    { _id: contactId, userId },
+    data,
     { new: true },
   );
   return contact;
 };
 
-export const deleteContactById = async (contactId) => {
-  const deletedContact = await ContactsCollection.findByIdAndDelete(contactId);
+export const deleteContactById = async (contactId, userId) => {
+  const deletedContact = await ContactsCollection.findOneAndDelete({
+    _id: contactId,
+    userId,
+  });
   return deletedContact;
 };
