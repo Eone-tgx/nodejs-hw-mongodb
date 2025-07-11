@@ -1,0 +1,28 @@
+tags:
+  - Contacts
+summary: Get all contacts
+operationId: getAllContacts
+description: Retrieve a list of all user contacts. Supports filtering by type and favourite status.
+security:
+  - bearerAuth: []
+parameters:
+  - name: type
+    in: query
+    description: Filter contacts by type (work, home, personal)
+    schema:
+      type: string
+      enum: [work, home, personal]
+  - name: isFavourite
+    in: query
+    description: Filter contacts by favourite status
+    schema:
+      type: boolean
+responses:
+  '200':
+    description: List of contacts retrieved successfully
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: ../../components/schemas/Contact.yaml

@@ -1,0 +1,28 @@
+tags:
+  - Contacts
+summary: Get a contact by ID
+operationId: getContactById
+description: Retrieve a single contact from the database by their unique ID.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    description: ID of the contact to retrieve
+    schema:
+      type: string
+responses:
+  '200':
+    description: Contact found and returned successfully
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/schemas/Contact.yaml'
+        example:
+          _id: '64d05e26fa13960c4d5e37e1'
+          name: 'Andriy'
+          phoneNumber: '+380971234567'
+          email: 'andrii@example.com'
+  '404':
+    description: Contact not found
