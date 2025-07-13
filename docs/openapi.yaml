@@ -13,19 +13,18 @@ servers:
   - url: http://localhost:3000
   - url: https://nodejs-hw2-mongodb-contacts-app.onrender.com
 paths:
-  /contacts/{id}:
+  /contacts/{contactId}:
     get:
-      $ref: ../swagger/paths/contacts/{id}/get.yaml
+      $ref: ../swagger/paths/contacts/{contactId}/get.yaml
     patch:
-      $ref: ../swagger/paths/contacts/{id}/patch.yaml
+      $ref: ../swagger/paths/contacts/{contactId}/patch.yaml
     delete:
-      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+      $ref: ../swagger/paths/contacts/{contactId}/delete.yaml
   /contacts:
     get:
       $ref: ../swagger/paths/contacts/get.yaml
     post:
       $ref: ../swagger/paths/contacts/post.yaml
-# тут будуть посилання на ендпоінти
 components:
   securitySchemes:
     bearerAuth:
